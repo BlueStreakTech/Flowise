@@ -18,4 +18,4 @@ RUN npm install -g flowise
 
 WORKDIR /data
 
-CMD "flowise start"
+CMD ["flowise", "start"]
