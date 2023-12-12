@@ -7,6 +7,11 @@ on:
         type: string
         required: true
 
+env:
+  DOCKER_BUILD_IMAGE_NAME: flowise_flowise
+  IMAGE_NAME: flowise
+  VERSION: latest
+
 jobs:
   build:
     name: 🎉 Release Build
