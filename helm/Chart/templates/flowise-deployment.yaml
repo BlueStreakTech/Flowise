@@ -1,0 +1,121 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flowise-deployment
+  namespace: flowise
+  labels:
+    app: flowise
+spec:
+  #replicas: 0
+  selector:
+    matchLabels:
+      app: flowise
+  template:
+    metadata:
+      labels:
+        app: flowise
+    spec:
+      containers:
+        - name: flowise
+          image: ghcr.io/bluestreaktech/flowise:{{ .Values.version }}
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              cpu: 200m
+              memory: 500Mi
+            requests:
+              cpu: 100m
+              memory: 200Mi
+          env:
+            - name: FLOWISE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: flowise-secret
+                  key: flowise-password
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: flowise-secret
+                  key: database-password
+            - name: FLOWISE_SECRETKEY_OVERWRITE
+              valueFrom:
+                secretKeyRef:
+                  name: flowise-secret
+                  key: flowise-security-key
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: flowise-configmap
+                  key: port
+            - name: DATABASE_TYPE
+              valueFrom:
+                configMapKeyRef:
+                  name: flowise-configmap
+                  key: database-type
+            - name: DATABASE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: flowise-configmap
+                  key: database-port
+            - name: DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: flowise-configmap
+                  key: database-host
+            - name: DATABASE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: flowise-configmap
+                  key: database-name
+            - name: DATABASE_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: flowise-configmap
+                  key: database-user
+            - name: FLOWISE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: flowise-configmap
+                  key: flowise-username
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flowise-service
+  namespace: flowise
+spec:
+  type: NodePort
+  selector:
+    app: flowise
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: flowise-host
+  namespace: flowise
+  annotations:
+   cert-manager.io/cluster-issuer: "letsencrypt"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - "flowise.bstek.net"
+      secretName: letsencrypt
+  rules:
+  - host: "flowise.bstek.net"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: flowise-service
+            port:
+              number: 80

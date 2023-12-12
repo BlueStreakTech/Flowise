@@ -1,0 +1,24 @@
+namespace: flowise
+
+# Flowise Version
+version: 1.0.0
+
+# NFS Server
+nfs:
+  server: 192.168.20.21
+  mount_path: /k8s-share
+
+# Database
+database:
+  host: database-service.flowise
+  type: postgres
+  port: 5432
+  name: flowise
+  user: flowise
+  password: blu3str3@kFl0wise! #secret
+
+# Flowise
+flowise:
+  username: flowise
+  password: blu3str3@kFl0wise! #secret
+  security_key: blu3str3@k-fl0wise-$ecurity-k3y #secret

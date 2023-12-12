@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flowise-configmap
+  namespace: flowise
+data:
+  port: "{{ .Values.flowise.port }}"
+  database-type: "{{ .Values.database.type }}"
+  database-port: "{{ .Values.database.port }}"
+  database-host: "{{ .Values.database.host }}"
+  database-name: "{{ .Values.database.name }}"
+  database-user: "{{ .Values.database.user }}"
+  flowise-username: "{{ .Values.flowise.username }}"
