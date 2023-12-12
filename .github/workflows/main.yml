@@ -1,4 +1,4 @@
-name: Build ${{ inputs.version }}
+name: Build
 on:
   workflow_dispatch:
     inputs:
@@ -14,7 +14,7 @@ env:
 
 jobs:
   build:
-    name: 🎉 Release Build
+    name: 🎉 Release Build ${{ inputs.version }}
     runs-on: ubuntu-latest
 
     steps:
