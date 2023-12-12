@@ -11,3 +11,6 @@ data:
   database-name: "{{ .Values.database.name }}"
   database-user: "{{ .Values.database.user }}"
   flowise-username: "{{ .Values.flowise.username }}"
+  api-key-path: "{{ .Values.flowise.api_key_path }}"
+  secret-key-path: "{{ .Values.flowise.secret_key_path }}"
+  log-path: "{{ .Values.flowise.log_path }}"

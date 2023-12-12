@@ -1,9 +1,6 @@
-FROM node:18-alpine
+FROM --platform=linux/amd64 node:18-alpine
 
-USER root
-
-RUN apk add --no-cache git
-RUN apk add --no-cache python3 py3-pip make g++
+RUN apk add --update libc6-compat python3 make g++
 # needed for pdfjs-dist
 RUN apk add --no-cache build-base cairo-dev pango-dev
 
@@ -13,9 +10,27 @@ RUN apk add --no-cache chromium
 ENV PUPPETEER_SKIP_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-# You can install a specific version like: flowise@1.0.0
-RUN npm install -g flowise
+WORKDIR /usr/src/packages
 
-WORKDIR /data
+# Copy root package.json and lockfile
+COPY package.json yarn.loc[k] ./
 
-CMD ["flowise", "start"]
+# Copy components package.json
+COPY packages/components/package.json ./packages/components/package.json
+
+# Copy ui package.json
+COPY packages/ui/package.json ./packages/ui/package.json
+
+# Copy server package.json
+COPY packages/server/package.json ./packages/server/package.json
+
+RUN yarn install
+
+# Copy app source
+COPY . .
+
+RUN yarn build
+
+EXPOSE 3000
+
+CMD [ "yarn", "start" ]

@@ -20,13 +20,10 @@ spec:
           image: ghcr.io/bluestreaktech/flowise:{{ .Values.version }}
           ports:
             - containerPort: 3000
-          resources:
-            limits:
-              cpu: 200m
-              memory: 500Mi
+          resources: 
             requests:
-              cpu: 100m
-              memory: 200Mi
+              cpu: 1
+              memory: 1Gi
           env:
             - name: FLOWISE_PASSWORD
               valueFrom:
@@ -78,6 +75,21 @@ spec:
                 configMapKeyRef:
                   name: flowise-configmap
                   key: flowise-username
+            - name: APIKEY_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: flowise-configmap
+                  key: api-key-path
+            - name: SECRETKEY_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: flowise-configmap
+                  key: secret-key-path
+            - name: LOG_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: flowise-configmap
+                  key: log-path
       imagePullSecrets:
         - name: regcred
 ---
