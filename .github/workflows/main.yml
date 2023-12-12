@@ -1,37 +1,36 @@
-name: Node CI
-
+name: Build
 on:
-    push:
-        branches:
-            - main
-
-    pull_request:
-        branches:
-            - '*'
-
-permissions:
-    contents: read
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version Number (ex: 1.0.0)'
+        type: string
+        required: true
 
 jobs:
-    build:
-        strategy:
-            matrix:
-                platform: [ubuntu-latest]
-                node-version: [18.15.0]
-        runs-on: ${{ matrix.platform }}
-        env:
-            PUPPETEER_SKIP_DOWNLOAD: true
-        steps:
-            - uses: actions/checkout@v3
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v3
-              with:
-                  node-version: ${{ matrix.node-version }}
+  build:
+    name: 🎉 Release Build
+    runs-on: ubuntu-latest
 
-            - run: npm i -g yarn
+    steps:
+      - name: 🔨 Build docker image
+        run: docker build . -f Dockerfile-Production -t $DOCKER_BUILD_IMAGE_NAME
 
-            - run: yarn install --ignore-engines
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-            - run: yarn lint
-
-            - run: yarn build
+      - name: 🏷 Tag and Push
+        id: prep
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
+          # Change all uppercase to lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          # Tag the latest image with the correct version
+          NEW_IMAGE_TAG=$IMAGE_ID:${{ inputs.version }}
+          docker tag $DOCKER_BUILD_IMAGE_NAME $NEW_IMAGE_TAG
+          # Push the image to github registry
+          docker push $NEW_IMAGE_TAG
