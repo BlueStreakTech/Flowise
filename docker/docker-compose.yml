@@ -2,7 +2,9 @@ version: '3.1'
 
 services:
     flowise:
-        image: flowiseai/flowise
+        build:
+            context: .
+            dockerfile: ./Dockerfile
         restart: always
         environment:
             - PORT=${PORT}
@@ -22,7 +24,7 @@ services:
             - LOG_LEVEL=${LOG_LEVEL}
             - LOG_PATH=${LOG_PATH}
         ports:
-            - '${PORT}:${PORT}'
+            - 3000:3000
+            - 8080:8080
         volumes:
-            - ~/.flowise:/root/.flowise
-        command: /bin/sh -c "sleep 3; flowise start"
+            - ../:/root/flowise

@@ -44,3 +44,6 @@
 
 ## compressed
 **/*.tgz
+database.sqlite
+server-requests.log.jsonl
+.devcontainer/devcontainer.json

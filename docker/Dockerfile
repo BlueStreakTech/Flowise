@@ -10,12 +10,23 @@ RUN apk add --no-cache build-base cairo-dev pango-dev
 # Install Chromium
 RUN apk add --no-cache chromium
 
+# Install Package for Turbo Repo (fix as shown here: https://github.com/vercel/turbo/issues/3373)
+RUN apk add --no-cache libc6-compat 
+
+WORKDIR /root/flowise
+
+# Install Yarn
+# RUN npm install --global yarn
+
 ENV PUPPETEER_SKIP_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-# You can install a specific version like: flowise@1.0.0
-RUN npm install -g flowise
+COPY . /root/flowise
 
-WORKDIR /data
+RUN yarn install
+# RUN yarn build
 
-CMD "flowise"
+# EXPOSE 3000
+# EXPOSE 8080
+
+ENTRYPOINT ["tail", "-f", "/dev/null"]

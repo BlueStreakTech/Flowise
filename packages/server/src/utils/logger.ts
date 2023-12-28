@@ -10,8 +10,8 @@ const { combine, timestamp, printf, errors } = format
 const logDir = config.logging.dir
 
 // Create the log directory if it doesn't exist
-if (!fs.existsSync(logDir)) {
-    fs.mkdirSync(logDir)
+if (logDir && !fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir, { recursive: true })
 }
 
 const logger = createLogger({
