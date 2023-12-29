@@ -10,7 +10,7 @@ export class AddVariableEntity1699325775451 implements MigrationInterface {
                 "type" text NULL,
                 "createdDate" timestamp NOT NULL DEFAULT now(),
                 "updatedDate" timestamp NOT NULL DEFAULT now(),
-                CONSTRAINT "PK_3c7cea7a044ac4c92764576cdbf" PRIMARY KEY (id)
+                CONSTRAINT "PK_3c7cea7a044ac4c92764576cdbu" PRIMARY KEY (id)
             );`
         )
     }
