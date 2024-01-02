@@ -29,7 +29,7 @@ class StructuredConversationalAgent_Agents implements INode {
     constructor() {
         this.label = 'Structured Conversational Agent'
         this.name = 'structuredConversationalAgent'
-        this.version = 2.0
+        this.version = 1.0
         this.type = 'AgentExecutor'
         this.category = 'Agents'
         this.icon = 'structured_agent.svg'
