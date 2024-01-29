@@ -100,6 +100,10 @@ const ChatbotFull = () => {
         setLoading(getSpecificChatflowFromPublicApi.loading || getSpecificChatflowApi.loading)
     }, [getSpecificChatflowFromPublicApi.loading, getSpecificChatflowApi.loading])
 
+    useEffect(() => {
+        document.title = chatbotTheme.title
+    }, [chatbotTheme])
+
     return (
         <>
             {!isLoading ? (

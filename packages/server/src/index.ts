@@ -398,6 +398,24 @@ export class App {
             return res.status(200).send('OK')
         })
 
+        // Get specific chatflow apiConfig via id (PUBLIC endpoint, used to retrieve config for embedded chat)
+        // Safe as public endpoint as apiConfig doesn't contain sensitive credential
+        this.app.get('/api/v1/public-apiConfig/:id', async (req: Request, res: Response) => {
+            const chatflow = await this.AppDataSource.getRepository(ChatFlow).findOneBy({
+                id: req.params.id
+            })
+            if (!chatflow) return res.status(404).send(`Chatflow ${req.params.id} not found`)
+            if (chatflow.apiConfig) {
+                try {
+                    const parsedConfig = JSON.parse(chatflow.apiConfig)
+                    return res.json(parsedConfig)
+                } catch (e) {
+                    return res.status(500).send(`Error parsing API Config for Chatflow ${req.params.id}`)
+                }
+            }
+            return res.status(200).send('OK')
+        })
+
         // Save chatflow
         this.app.post('/api/v1/chatflows', async (req: Request, res: Response) => {
             const body = req.body
