@@ -1,5 +1,7 @@
 {
     "description": "Conversational Agent with ability to visit a website and extract information",
+    "categories": "Buffer Memory,Web Browser,ChatOpenAI,Conversational Agent",
+    "framework": "Langchain",
     "nodes": [
         {
             "width": 300,
@@ -125,7 +127,7 @@
             "data": {
                 "id": "chatOpenAI_0",
                 "label": "ChatOpenAI",
-                "version": 3,
+                "version": 4,
                 "name": "chatOpenAI",
                 "type": "ChatOpenAI",
                 "baseClasses": ["ChatOpenAI", "BaseChatModel", "BaseLanguageModel"],
@@ -161,6 +163,10 @@
                                 "name": "gpt-4-1106-preview"
                             },
                             {
+                                "label": "gpt-4-1106-vision-preview",
+                                "name": "gpt-4-1106-vision-preview"
+                            },
+                            {
                                 "label": "gpt-4-vision-preview",
                                 "name": "gpt-4-vision-preview"
                             },
@@ -179,6 +185,10 @@
                             {
                                 "label": "gpt-3.5-turbo",
                                 "name": "gpt-3.5-turbo"
+                            },
+                            {
+                                "label": "gpt-3.5-turbo-0125",
+                                "name": "gpt-3.5-turbo-0125"
                             },
                             {
                                 "label": "gpt-3.5-turbo-1106",
@@ -423,7 +433,7 @@
             "data": {
                 "id": "chatOpenAI_1",
                 "label": "ChatOpenAI",
-                "version": 3,
+                "version": 4,
                 "name": "chatOpenAI",
                 "type": "ChatOpenAI",
                 "baseClasses": ["ChatOpenAI", "BaseChatModel", "BaseLanguageModel"],
@@ -459,6 +469,10 @@
                                 "name": "gpt-4-1106-preview"
                             },
                             {
+                                "label": "gpt-4-1106-vision-preview",
+                                "name": "gpt-4-1106-vision-preview"
+                            },
+                            {
                                 "label": "gpt-4-vision-preview",
                                 "name": "gpt-4-vision-preview"
                             },
@@ -477,6 +491,10 @@
                             {
                                 "label": "gpt-3.5-turbo",
                                 "name": "gpt-3.5-turbo"
+                            },
+                            {
+                                "label": "gpt-3.5-turbo-0125",
+                                "name": "gpt-3.5-turbo-0125"
                             },
                             {
                                 "label": "gpt-3.5-turbo-1106",
